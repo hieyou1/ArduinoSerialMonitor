@@ -1,0 +1,36 @@
+* {
+  font-family: ubuntu;
+}
+
+#canvas-container {
+}
+
+#settings-container {
+  margin: 8px 0px;
+}
+
+#io-container {
+
+}
+
+#canvas {
+  border: 1px solid #999999; 
+  background-color: #aaaaaa;
+}
+
+input, button, select {
+  padding: 4px;
+}
+
+#output {
+  border: 1px solid #aaa;
+  width: 1200px;
+  height: 170px;
+  overflow: auto;
+  -webkit-user-select: text;
+}
+
+#input {
+  width: 600px;
+  margin: 10px 0px;
+}

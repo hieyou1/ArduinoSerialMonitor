@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Arduino Accelerometer Plotter</title>
+  <link rel="stylesheet" href="main.css">
+  <script src="plotter.js" type="text/javascript"></script>
+  <script src="dumpper.js" type="text/javascript"></script>
+  <script src="util.js" type="text/javascript"></script>
+  <script src="notifier.js" type="text/javascript"></script>
+  <script src="port.js" type="text/javascript"></script>
+  <script src="main.js" type="text/javascript"></script>
+</head>
+<body>
+  <div>
+    <div >
+      <h1>Arduino Accelerometer Plotter</h1>
+      <div id="settings-container">
+        <div>
+          <label for="ports">Ports:</label>
+          <select id="ports">
+          </select>
+          <label for="baudrate">Baud Rate:</label>
+          <select id="baudrate">
+            <option value="115200">115200</option>
+            <option value="57600">57600</option>
+            <option value="38400">38400</option>
+            <option value="19200">19200</option>
+            <option value="9600" selected>9600</option>
+            <option value="4800">4800</option>
+            <option value="2400">2400</option>
+            <option value="1800">1800</option>
+            <option value="1200">1200</option>
+            <option value="600">600</option>
+            <option value="300">300</option>
+            <option value="200">200</option>
+            <option value="150">150</option>
+            <option value="134">134</option>
+            <option value="110">110</option>
+            <option value="75">75</option>
+            <option value="50">50</option>
+          </select>
+          <button id="connect">Connect</button>
+          <span id="status">Not connected</span>
+        </div>
+      </div>
+      <div id="canvas-container">
+        <canvas width="1200" height="400" id="canvas"></canvas>
+        <div>
+          Disable plotter <input type="checkbox" id="protter-enable" />
+        </div>
+      </div>
+      <div id="io-container">
+        <div>
+          <input id="input" type="text" />
+          <button id="send">Send</button>
+        </div>
+        <div>
+          <pre id="output"></pre>
+        </div>
+        <div>
+          Disable output <input type="checkbox" id="dumpper-enable" />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
