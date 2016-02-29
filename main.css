@@ -2,7 +2,8 @@
   font-family: ubuntu;
 }
 
-#canvas-container {
+img {
+  width: 20px;
 }
 
 #settings-container {
@@ -13,19 +14,14 @@
 
 }
 
-#canvas {
-  border: 1px solid #999999; 
-  background-color: #aaaaaa;
-}
-
 input, button, select {
   padding: 4px;
 }
 
 #output {
   border: 1px solid #aaa;
-  width: 1200px;
-  height: 170px;
+  width: 800px;
+  height: 400px;
   overflow: auto;
   -webkit-user-select: text;
 }

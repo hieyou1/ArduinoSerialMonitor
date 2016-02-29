@@ -15,11 +15,3 @@ function stringToArrayBuffer(string) {
   }
   return buf;
 }
-
-function toSigned(n, len) {
-  if (n > Math.pow(2, len - 1)) {
-    n -= Math.pow(2, len) 
-  }
-  return n;
-}
-
