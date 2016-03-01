@@ -15,3 +15,7 @@ function stringToArrayBuffer(string) {
   }
   return buf;
 }
+
+function areArraysEqual(a0, a1) {
+  return JSON.stringify(a0) == JSON.stringify(a1);
+}

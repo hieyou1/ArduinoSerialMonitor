@@ -1,5 +1,5 @@
 function Dumpper() {
-  this.autoscroll = false;
+  this.autoscroll = true;
   this.output = document.getElementById("output");
 }
 

@@ -1,4 +1,15 @@
-var autoscrollInput, statusText, serialPort, connectButton, portsSelect, baudrateSelect, sendButton, outputTextArea, inputText, dumpper;
+var autoscrollInput;
+var statusText;
+var serialPort;
+var connectButton;
+var portsSelect;
+var baudrateSelect;
+var sendButton;
+var outputTextArea;
+var inputText;
+var dumpper;
+var previousPorts;
+var lineEndingSelect;
 
 function initComponents() {
   autoscrollInput = document.getElementById("autoscroll");
@@ -9,13 +20,15 @@ function initComponents() {
   portsSelect = document.getElementById("ports");
   baudrateSelect = document.getElementById("baudrate");
   connectButton = document.getElementById("connect");
+  lineEndingSelect = document.getElementById("line-ending");
+  dumpper = new Dumpper();
 }
 
 function listPorts(ports) {
   portsSelect.innerHTML = "";
   var options = portsSelect.options;
   ports.map(function(port) {
-    options[options.length] = new Option(port.path, port.path);
+    options[options.length] = new Option(port, port, false, (serialPort && serialPort.isConnected() && serialPort.path == port));
   });
 };
 
@@ -25,7 +38,6 @@ function connect(port, baudrate) {
   } else {
     serialPort = new SerialPort(port, {bitrate: parseInt(baudrate), ctsFlowControl: true});
     serialPort.addEventListener(SerialPort.EVENT.STATE_CHANGE, {notify: notify});
-    dumpper = new Dumpper();
     serialPort.addEventListener(SerialPort.EVENT.DATA_AVAILABLE, dumpper);
     serialPort.connect();
   }
@@ -41,17 +53,21 @@ function notify(newState) {
 }
 
 function send() {
-  if (serialPort.isConnected()) {
-    serialPort.writeString(inputText.value + "\n");
+  if (serialPort && serialPort.isConnected()) {
+    serialPort.writeString(inputText.value + lineEndingSelect.options[lineEndingSelect.selectedIndex].value);
     inputText.value = "";
   }
 }
 
 function attachEvents() {
   connectButton.addEventListener("click", function() {
-    var port = portsSelect.options[portsSelect.selectedIndex].value;
-    var baudrate = baudrateSelect.options[baudrateSelect.selectedIndex].value;
-    connect(port, baudrate);
+    try {
+      var port = portsSelect.options[portsSelect.selectedIndex].value;
+      var baudrate = baudrateSelect.options[baudrateSelect.selectedIndex].value;
+      connect(port, baudrate);
+    } catch(e) {
+      statusText.innerHTML = "No port to connect.";
+    }
   });
   sendButton.addEventListener("click", function() {
     send();
@@ -62,8 +78,18 @@ function attachEvents() {
     }
   });
   autoscrollInput.addEventListener("click", function() {
-    dumpper.invertAutoscroll();
+    if (dumpper) {
+      dumpper.invertAutoscroll();
+    }
   });
+}
+
+function extractPaths(ports) {
+  var paths = [];
+  ports.map(function(port) {
+    paths.push(port.path);
+  });
+  return paths;
 }
 
 window.addEventListener("load", function() {
@@ -72,9 +98,13 @@ window.addEventListener("load", function() {
     attachEvents();
     setInterval(function() {
       chrome.serial.getDevices(function(ports) {
-        listPorts(ports);
-        if (ports.length == 0 && serialPort && serialPort.isConnected()) {
+        ports = extractPaths(ports);
+        if (serialPort && serialPort.isConnected() && ports.indexOf(serialPort.path) < 0) {
           serialPort.disconnect();
+        }
+        if (!areArraysEqual(previousPorts, ports)) {
+          listPorts(ports);
+          previousPorts = ports;
         }
       });
     }, 1000);

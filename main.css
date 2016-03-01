@@ -21,7 +21,7 @@ input, button, select {
 #output {
   border: 1px solid #aaa;
   width: 800px;
-  height: 400px;
+  height: 380px;
   overflow: auto;
   -webkit-user-select: text;
 }
@@ -29,4 +29,13 @@ input, button, select {
 #input {
   width: 600px;
   margin: 10px 0px;
+}
+
+#line-ending {
+  margin: 2px;
+  float: right;
+}
+
+#status {
+  float: right;
 }
