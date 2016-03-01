@@ -77,6 +77,10 @@ SerialPort.prototype.stateMessage = function() {
   return SerialPort.STATE_MESSAGE[this.getState()];
 };
 
+SerialPort.prototype.getPath = function() {
+  return this.path;
+};
+
 SerialPort.STATE = {
   CONNECTING: 0x01,
   CONNECTED: 0x02,

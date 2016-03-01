@@ -1,18 +1,18 @@
-var autoscrollInput;
+var autoScrollInput;
 var statusText;
-var serialPort;
+var port;
 var connectButton;
 var portsSelect;
 var baudrateSelect;
 var sendButton;
 var outputTextArea;
 var inputText;
-var dumpper;
-var previousPorts;
+var monitor;
+var previousPaths;
 var lineEndingSelect;
 
 function initComponents() {
-  autoscrollInput = document.getElementById("autoscroll");
+  autoScrollInput = document.getElementById("auto-scroll");
   statusText = document.getElementById("status");
   sendButton = document.getElementById("send");
   outputTextArea = document.getElementById("output");
@@ -21,40 +21,40 @@ function initComponents() {
   baudrateSelect = document.getElementById("baudrate");
   connectButton = document.getElementById("connect");
   lineEndingSelect = document.getElementById("line-ending");
-  dumpper = new Dumpper();
+  monitor = new Monitor();
 }
 
 function listPorts(ports) {
   portsSelect.innerHTML = "";
   var options = portsSelect.options;
-  ports.map(function(port) {
-    options[options.length] = new Option(port, port, false, (serialPort && serialPort.isConnected() && serialPort.path == port));
+  ports.map(function(p) {
+    options[options.length] = new Option(p.path, p.path, false, (port && port.isConnected() && port.getPath() == p));
   });
-};
+}
 
-function connect(port, baudrate) {
-  if (serialPort && serialPort.isConnected()) {
-    serialPort.disconnect();
+function connect(path, baudrate) {
+  if (port && port.isConnected()) {
+    port.disconnect();
   } else {
-    serialPort = new SerialPort(port, {bitrate: parseInt(baudrate), ctsFlowControl: true});
-    serialPort.addEventListener(SerialPort.EVENT.STATE_CHANGE, {notify: notify});
-    serialPort.addEventListener(SerialPort.EVENT.DATA_AVAILABLE, dumpper);
-    serialPort.connect();
+    port = new SerialPort(path, {bitrate: parseInt(baudrate), ctsFlowControl: true});
+    port.addEventListener(SerialPort.EVENT.STATE_CHANGE, {notify: notify});
+    port.addEventListener(SerialPort.EVENT.DATA_AVAILABLE, monitor);
+    port.connect();
   }
 }
 
 function notify(newState) {
-  statusText.innerHTML = serialPort.stateMessage();
+  statusText.innerHTML = port.stateMessage();
   if (newState == SerialPort.STATE.CONNECTED) {
-    connectButton.innerHTML = "Dicsonnect";
+    connectButton.innerHTML = "Disconnect";
   } else {
     connectButton.innerHTML = "Connect";
   }
 }
 
 function send() {
-  if (serialPort && serialPort.isConnected()) {
-    serialPort.writeString(inputText.value + lineEndingSelect.options[lineEndingSelect.selectedIndex].value);
+  if (port && port.isConnected()) {
+    port.writeString(inputText.value + lineEndingSelect.options[lineEndingSelect.selectedIndex].value);
     inputText.value = "";
   }
 }
@@ -66,7 +66,7 @@ function attachEvents() {
       var baudrate = baudrateSelect.options[baudrateSelect.selectedIndex].value;
       connect(port, baudrate);
     } catch(e) {
-      statusText.innerHTML = "No port to connect.";
+      statusText.innerHTML = "No port to connect. " + e;
     }
   });
   sendButton.addEventListener("click", function() {
@@ -77,9 +77,9 @@ function attachEvents() {
       send();
     }
   });
-  autoscrollInput.addEventListener("click", function() {
-    if (dumpper) {
-      dumpper.invertAutoscroll();
+  autoScrollInput.addEventListener("click", function() {
+    if (monitor) {
+      monitor.invertAutoScroll();
     }
   });
 }
@@ -98,13 +98,13 @@ window.addEventListener("load", function() {
     attachEvents();
     setInterval(function() {
       chrome.serial.getDevices(function(ports) {
-        ports = extractPaths(ports);
-        if (serialPort && serialPort.isConnected() && ports.indexOf(serialPort.path) < 0) {
-          serialPort.disconnect();
+        var paths = extractPaths(ports);
+        if (port && port.isConnected() && paths.indexOf(port.getPath()) < 0) {
+          port.disconnect();
         }
-        if (!areArraysEqual(previousPorts, ports)) {
+        if (!areArraysEqual(previousPaths, paths)) {
           listPorts(ports);
-          previousPorts = ports;
+          previousPaths = paths;
         }
       });
     }, 1000);

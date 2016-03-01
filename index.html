@@ -2,10 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Arduino Serial Monitor</title>
+  <title>Arduino Chrome Serial Monitor</title>
   <link rel="stylesheet" href="main.css">
-  <script src="plotter.js" type="text/javascript"></script>
-  <script src="dumpper.js" type="text/javascript"></script>
+  <script src="monitor.js" type="text/javascript"></script>
   <script src="util.js" type="text/javascript"></script>
   <script src="notifier.js" type="text/javascript"></script>
   <script src="port.js" type="text/javascript"></script>
@@ -14,7 +13,7 @@
 <body>
   <div>
     <div >
-      <h1><img src="assets/icon-128x128.png"> Arduino Serial Monitor</h1>
+      <h1><img src="assets/icon-128x128.png"> Arduino Chrome Serial Monitor</h1>
       <div id="settings-container">
         <div>
           <label for="ports">Ports:</label>
@@ -53,12 +52,12 @@
           <pre id="output"></pre>
         </div>
         <div>
-          <input type="checkbox" checked="checked" id="autoscroll"></pre> <label for="autoscroll">Autoscroll</label>
+          <input type="checkbox" checked="checked" id="auto-scroll"></pre> <label for="auto-scroll">Auto Scroll</label>
           <select id="line-ending">
             <option value="">No line ending</option>
             <option value="\n">New line</option>
             <option value="\r">Carriage return</option>
-            <option selected value="\n\r">Both NL &eacute; CR</option>
+            <option selected value="\n\r">Both NL & CR</option>
           </select>
         </div>
       </div>
