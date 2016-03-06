@@ -6,12 +6,12 @@ function SerialPort(path, options) {
   this.notifier = new EventNotifier();
 }
 
-SerialPort.prototype.setState = function(newState) {
+SerialPort.prototype.setState = function (newState) {
   this.state = newState;
   this.notifier.notifyEvent(SerialPort.EVENT.STATE_CHANGE, newState);
 };
 
-SerialPort.prototype.getState = function() {
+SerialPort.prototype.getState = function () {
   return this.state;
 };
 
@@ -44,7 +44,7 @@ SerialPort.prototype.write = function (buffer, onDone) {
     buffer = bufferToArrayBuffer(buffer);
   }
   if (typeof onDone !== 'function') {
-    onDone = function() {
+    onDone = function () {
     };
   }
   chrome.serial.send(this.connectionId, buffer, onDone);
@@ -65,19 +65,19 @@ SerialPort.prototype.onDisconnect = function () {
   this.setState(SerialPort.STATE.DISCONNECTED);
 };
 
-SerialPort.prototype.addEventListener = function(event, notification) {
+SerialPort.prototype.addEventListener = function (event, notification) {
   this.notifier.addEventListener(event, notification);
 };
 
-SerialPort.prototype.isConnected = function() {
+SerialPort.prototype.isConnected = function () {
   return this.connectionId != -1;
 };
 
-SerialPort.prototype.stateMessage = function() {
+SerialPort.prototype.stateMessage = function () {
   return SerialPort.STATE_MESSAGE[this.getState()];
 };
 
-SerialPort.prototype.getPath = function() {
+SerialPort.prototype.getPath = function () {
   return this.path;
 };
 
