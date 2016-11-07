@@ -36,6 +36,7 @@ function connect(path, baudrate) {
   if (port && port.isConnected()) {
     port.disconnect();
   } else {
+    outputTextArea.innerHTML = ""; 
     port = new SerialPort(path, {
       bitrate: parseInt(baudrate),
       ctsFlowControl: true
