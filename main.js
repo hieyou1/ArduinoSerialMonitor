@@ -102,21 +102,19 @@ function extractPaths(ports) {
     return paths;
 }
 
-window.addEventListener("load", function () {
-    if (typeof chrome != "undefined" && chrome.serial) {
-        initComponents();
-        attachEvents();
-        setInterval(function () {
-            chrome.serial.getDevices(function (ports) {
-                var paths = extractPaths(ports);
-                if (port && port.isConnected() && paths.indexOf(port.getPath()) < 0) {
-                    port.disconnect();
-                }
-                if (!areArraysEqual(previousPaths, paths)) {
-                    listPorts(ports);
-                    previousPaths = paths;
-                }
-            });
-        }, 1000);
-    }
-}, false);
+window.onload = () => {
+    initComponents();
+    attachEvents();
+    setInterval(() => {
+        navigator.serial.getPorts().then((ports) => {
+            var paths = extractPaths(ports);
+            if (port && port.isConnected() && paths.indexOf(port.getPath()) < 0) {
+                port.disconnect();
+            }
+            if (!areArraysEqual(previousPaths, paths)) {
+                listPorts(ports);
+                previousPaths = paths;
+            }
+        });
+    }, 1000);
+};
