@@ -1,13 +1,13 @@
 * {
-  font-family: ubuntu;
+    font-family: ubuntu;
 }
 
 img {
-  width: 20px;
+    width: 20px;
 }
 
 #settings-container {
-  margin: 8px 0px;
+    margin: 8px 0px;
 }
 
 #io-container {
@@ -15,32 +15,32 @@ img {
 }
 
 input, button, select {
-  padding: 4px;
+    padding: 4px;
 }
 
 #output {
-  border: 1px solid #aaa;
-  width: 800px;
-  height: 380px;
-  overflow: auto;
-  -webkit-user-select: text;
-  white-space: pre;
-  font-family: monospace;
-  display: block;
-  font-size: 14px;
-  margin-bottom: 10px;
+    border: 1px solid #aaa;
+    width: 800px;
+    height: 380px;
+    overflow: auto;
+    -webkit-user-select: text;
+    white-space: pre;
+    font-family: monospace;
+    display: block;
+    font-size: 14px;
+    margin-bottom: 10px;
 }
 
 #input {
-  width: 600px;
-  margin: 10px 0px;
+    width: 600px;
+    margin: 10px 0px;
 }
 
 #line-ending {
-  margin: 2px;
-  float: right;
+    margin: 2px;
+    float: right;
 }
 
 #status {
-  float: right;
+    float: right;
 }
