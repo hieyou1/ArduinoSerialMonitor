@@ -1,6 +1,5 @@
-# ArduinoChromeSerialMonitor
-A Arduino Serial Monitor extension for Chrome.
+# ArduinoSerialMonitor
 
-https://chrome.google.com/webstore/detail/arduino-chrome-serial-mon/opgcocnebgmkhcafcclmgfldjhlnacjd
+An Arduino serial monitor with the goal of doing it using only Chrome's Web Serial API.
 
-![alt text](https://github.com/dalmirdasilva/ArduinoChromeSerialMonitor/blob/master/assets/screenshot.png "Screenshot")
+Original Chrome app/extension is on [GitHub](https://github.com/dalmirdasilva/ArduinoChromeSerialMonitor) and the [Chrome Web Store](https://chrome.google.com/webstore/detail/arduino-chrome-serial-mon/opgcocnebgmkhcafcclmgfldjhlnacjd).
